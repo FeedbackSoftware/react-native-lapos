@@ -1,0 +1,6 @@
+framework module LaPosSDK {
+  umbrella header "LaPosSDK.h"
+
+  export *
+  module * { export * }
+}
