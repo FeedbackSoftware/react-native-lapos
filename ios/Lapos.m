@@ -62,25 +62,43 @@ RCT_EXPORT_METHOD(payEvent: (double)amount description:(NSString *)description)
                      //Transacción exitosa. En resultInfo se encuentran los datos de la transacción.
                    RCTLogInfo(@"Transacción exitosa. En resultInfo se encuentran los datos de la transacción");
 
-                   NSString* resStr = [NSString stringWithFormat:@"Payment Done. Success: %d", success];
+                    NSString* resStr = [NSString stringWithFormat:@"PaymentDone:%d", success];
+                   //NSString* resStr = [NSString string];
                    if (resultInfo) {
                        for (NSString* key in resultInfo) {
-                           resStr = [NSString stringWithFormat:@"%@\n%@: %@", resStr, key, [resultInfo objectForKey:key]];
+                           resStr = [NSString stringWithFormat:@"%@,%@:%@", resStr, key, [resultInfo objectForKey:key]];
                        }
                    }
 
                    [self sendEventWithName:@"EventReminder" body:@{@"result": @true, @"resultResponse": resStr}];
                  } else {
                    //[NSException raise:@"User Token missing" format:@"You shuld add your USER TOKEN at the top of AppDelegate.m. Line 13."];
+
+                  // ???????????????????????????????
+
                    RCTLogInfo(@"No se pudo completar la transacción. En [resultInfo objectForKey puede encontrarse un NSError describiendo el error. ");
                      //No se pudo completar la transacción. En [resultInfo objectForKey:@"error"] puede encontrarse un NSError describiendo el error.
-                   NSString* resStr = [NSString stringWithFormat:@"Payment Done. Success: %d", success];
+                   //NSString* resStr = [NSString stringWithFormat:@"PaymentFail: %d", success];
+                   NSString* resStr = [NSString string];
                    if (resultInfo) {
                         for (NSString* key in resultInfo) {
-                            resStr = [NSString stringWithFormat:@"value: %@", [resultInfo objectForKey:key]];
+                            resStr = [NSString stringWithFormat:@"Error: %@", [resultInfo objectForKey:key]];
                         }
                    }
+
                    [self sendEventWithName:@"EventReminder" body:@{@"error": resStr}];
+
+                   // ???????????????????????????????
+
+//                     NSDictionary *dict = @{ @"id": @"691", @"isClose": @"true", @"authorizationCode": @"404878", @"paymentType": @"CARD", @"total": @"10", @"cardHolderName": @"hola", @"issuerName": @"VISA", @"pan": @"11111****"};
+//                     NSString* resStr = [NSString stringWithFormat:@"PaymentDone:%d", success];
+//                     if (dict) {
+//                        for (NSString* key in dict) {
+//                            resStr = [NSString stringWithFormat:@"%@,%@:%@", resStr, key, [dict objectForKey:key]];
+//                        }
+//                     }
+//
+//                    [self sendEventWithName:@"EventReminder" body:@{@"result": @true, @"resultResponse": resStr}];
                  }
             }];
         });
