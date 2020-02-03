@@ -105,6 +105,22 @@ RCT_EXPORT_METHOD(payEvent: (double)amount description:(NSString *)description)
 
 }
 
+RCT_EXPORT_METHOD(sendEmail: (NSString *)operationId email:(NSString *)email)
+ {
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            [[LaPosSDK sharedSDK] sendReceiptForOperationID:operationId toEmail:email completion:^(NSDictionary * _Nullable resultInfo, BOOL success) {
+
+                if (success) {
+                    [self sendEventWithName:@"EventReminder" body:@{@"sendEmail": @true, @"resultEmail": @1}];
+                } else {
+                    [self sendEventWithName:@"EventReminder" body:@{@"sendEmail": @false, @"errorEmail": @1}];
+                }
+            }];
+        });
+}
+
 @end
+
 
 

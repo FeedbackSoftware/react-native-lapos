@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.ActivityEventListener;
 import com.mpos.sdk.constants.SdkConstants;
+import com.mpos.sdk.callbacks.OperationCompletion;
 
 public class LaposModule extends ReactContextBaseJavaModule implements ActivityEventListener {
 
@@ -117,6 +118,29 @@ public class LaposModule extends ReactContextBaseJavaModule implements ActivityE
         // activity, requestCode, amount, description, externalreference
         LaPosMovilSDK.Companion.getInstance().makePayment(activity, PAYMENT_CODE, amount, description, null);
 
+    }
+
+    @ReactMethod
+    public void sendEmail(int id, String email) {
+
+        LaPosMovilSDK.Companion.getInstance().sendReceiptForOperationId(
+            id,
+            email,
+            new OperationCompletion() {
+               public void onOperationSuccess(String result) {
+                   WritableMap params = Arguments.createMap();
+                   params.putBoolean("sendEmail", true);
+                   params.putString("resultEmail", result);
+                   sendEvent("EventReminder", params);
+               }
+               public void onOperationFailed(int errorCode, String errorMessage) {
+                   WritableMap params = Arguments.createMap();
+                   params.putBoolean("sendEmail", false);
+                   params.putString("errorEmail", errorMessage);
+                   sendEvent("EventReminder", params);
+               }
+            }
+        );
     }
 }
 
