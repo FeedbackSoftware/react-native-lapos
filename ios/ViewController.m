@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import <LaPosSDK/LaPosSDK.h>
+#import <LaPosSDK.h>
 
 @interface ViewController () < UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIDocumentInteractionControllerDelegate>
 

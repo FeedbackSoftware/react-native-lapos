@@ -1,6 +1,6 @@
 #import "Lapos.h"
 #import <React/RCTLog.h>
-#import <LaPosSDK/LaPosSDK.h>
+#import <LaPosSDK.h>
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 #import "ViewController.h"
